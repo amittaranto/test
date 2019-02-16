@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Clock Signing</title>
+	
+	
+
+</head>
+
+<script>
+
+function startTime() {
+var time = new Date();
+  var h = time.getHours();
+  var m = time.getMinutes();
+  var s = time.getSeconds();
+  var dd = time.getDate();
+  var mm = time.getMonth()+1; 
+  var yy = time.getFullYear();
+  
+if(dd<10) {
+    dd='0'+dd;
+} 
+if(mm<10) {
+    mm = '0' + mm;
+} 
+  m = checkTime(m);
+  s = checkTime(s);
+  document.getElementById('date').innerHTML =
+  dd + "/" + mm + "/" + yy;
+  document.getElementById('clock').innerHTML =
+  h + ":" + m + ":" + s;
+  var t = setTimeout(startTime, 500);
+}
+function checkTime(i) {
+  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+  return i;
+}
+
+</script>
+
+<body onload="startTime()">
+<?php
+//$conn = new mysqli('localhost', 'id8755005_irgunit', 'irgunit', 'id8755005_database');
+echo "gooooooooooooooood";
+
+echo "gooooooooooooooood";
+
+
+?>
+
+	
+<div id="date"></div>
+<div id="clock"></div>
+
+
+	<p id="comany_name"></p>
+	<p id="hour"></p>
+	<p id="minute"></p>
+	<button id="entrance" type="button" onclick="entrance()">כניסה</button>
+	<button id="exit" type="button" onclick="exit()">יציאה</button>
+	<button id="month" type="button">תצוגה חודשית</button>
+	<button id="year" type="button">תצוגה שנתית</button>
+	<button id="company" type="button" onclick="change_company()">שנה ארגון/חברה</button>
+	<button id="rate" type="button">שנה שכר בסיס</button>
+	<button id="salary" type="button">הצג משכורת חודשית</button>
+	
+	<h1 id="textbox_title" style="display: none;">New Company/Organization :</h1> 
+	<input type="text" id="inputText" style="display: none;">
+	<button id="input_change" onclick="set_company()" style="display: none;">הכנס</button>
+	
+	
+	<script>
+	document.getElementById("comany_name").innerHTML =  localStorage['company'] + " : שם הארגון/חברה";
+
+// ----------- to check the time ---------	
+//	document.getElementById("hour").innerHTML =  localStorage['entrance_hour'];
+//	document.getElementById("minute").innerHTML =  localStorage['entrance_minute'];
+	
+	
+function entrance(){
+	var time = new Date();
+	var h = time.getHours();
+	var m = checkTime(time.getMinutes());
+	var self_hour = localStorage['entrance_hour'];
+	var self_minute = localStorage['entrance_minute'];
+	if(self_hour !== 'None' || self_minute !== 'None'){
+		alert("You Already Entered The System At : " + self_hour + ":" + self_minute);
+		return;
+	}
+	localStorage.setItem('entrance_hour', h);
+	localStorage.setItem('entrance_minute', m);
+	alert("You Entered The System At : " + h + ":" + m);
+	
+// ----------- to check the time ---------	
+//	document.getElementById("hour").innerHTML =  localStorage['entrance_hour'];
+//	document.getElementById("minute").innerHTML =  localStorage['entrance_minute'];
+}
+
+function exit(){
+	if(localStorage['entrance_hour'] === 'None'){
+		alert("No Entrance Was Reported!");
+		return;
+	}
+	var time = new Date();
+	var h = time.getHours();
+	var m = checkTime(time.getMinutes());
+	
+// ----------- to check the daily work hours ---------		
+//	alert(h - parseInt(localStorage['entrance_hour']));
+	localStorage.setItem('entrance_hour', 'None');
+	localStorage.setItem('entrance_minute', 'None');
+	alert("You Exit The System At : " + h + ":" + m);
+	
+}
+
+function change_company(){
+	document.getElementById("input_change").style.display = "block";
+	document.getElementById("textbox_title").style.display = "block";
+	document.getElementById("inputText").style.display = "block";
+}
+
+function set_company(){
+	var new_company = document.getElementById("inputText").value;
+	localStorage.setItem('company', new_company);
+	alert("The Company/Organization Changed To : " + new_company);
+
+	document.getElementById("input_change").style.display = "none";
+	document.getElementById("textbox_title").style.display = "none";
+	document.getElementById("inputText").style.display = "none";
+
+	document.getElementById("comany_name").innerHTML =  localStorage['company'] + " : שם הארגון/חברה";	
+}
+
+	</script>
+	
+	
+</body>
+</html>
